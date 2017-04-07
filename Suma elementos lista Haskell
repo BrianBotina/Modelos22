@@ -1,0 +1,7 @@
+--Suma elementos lista Haskell
+
+suma:: [Int] -> Int
+suma [] = 0
+suma (x:xs) = x + suma(xs)
+
+main = print $ suma([1,2,3,4,5])
