@@ -1,0 +1,7 @@
+--Lista Digitos de un numero
+lista_digitos:: Int -> [Int]
+lista_digitos n
+    | n<10= [n]
+    |otherwise = lista_digitos(div n 10) ++ [mod n 10]
+
+main = print $ lista_digitos(123)
