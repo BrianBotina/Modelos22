@@ -1,0 +1,21 @@
+from functools import reduce
+
+apuestas = [[1,2,3],[[100,1,200],[10,30,5],[50,1500,3]],[[1,0,0],[0,1,0],[1,0,1]]]
+
+
+
+def flat_sum(lst):
+    return sum((flat_sum(elem) if
+                hasattr(elem, "__iter__") and not isinstance(elem, basestring)
+                else [elem] for elem in lst), [])
+
+jugador1 = list(map(lambda x: x[:len(x)/2],apuestas))
+jugador2= list(map(lambda x: x[1:len(x)-1],apuestas))
+jugador3= list(map(lambda x: x[2:len(x)],apuestas))
+
+ganancias1 = list(map(lambda x: x[1:], jugador1))
+
+print "Jugador 1: ",jugador1
+print "Jugador 2: ",jugador2
+print "Jugador 3: ",jugador3
+print "Ganancias: ",ganancias1
