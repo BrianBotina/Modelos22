@@ -1,21 +1,45 @@
 from functools import reduce
 
-apuestas = [[1,2,3],[[100,1,200],[10,30,5],[50,1500,3]],[[1,0,0],[0,1,0],[1,0,1]]]
+apuestas = [[100,1,200,'S','N','N'],[10,30,5,'N','S','N'],[50,1500,3,'S','N','S']]
 
+jugador1 = apuestas[0]
+jugador2 = apuestas[1]
+jugador3 = apuestas[2]
 
+print(jugador1)
+print(jugador2)
+print(jugador3)
 
-def flat_sum(lst):
-    return sum((flat_sum(elem) if
-                hasattr(elem, "__iter__") and not isinstance(elem, basestring)
-                else [elem] for elem in lst), [])
+def valor(jugador):
+    return list(filter(lambda x: x if (type(x)==int) else [], jugador))
 
-jugador1 = list(map(lambda x: x[:len(x)/2],apuestas))
-jugador2= list(map(lambda x: x[1:len(x)-1],apuestas))
-jugador3= list(map(lambda x: x[2:len(x)],apuestas))
+def apuestas(jugador):
+    return list(filter(lambda x: x if (type(x)==str) else [], jugador))
 
-ganancias1 = list(map(lambda x: x[1:], jugador1))
+def ganancias(jugador):
+    g = list(map(lambda x,y: (x,y), valor(jugador), apuestas(jugador)))
+    ga = list(filter(lambda x: x if ('S' in x) else [],g))
+    gan = (valor(reduce(lambda x,y: x+y, ga)))
+    return reduce(lambda x,y: x+y, gan)
 
-print "Jugador 1: ",jugador1
-print "Jugador 2: ",jugador2
-print "Jugador 3: ",jugador3
-print "Ganancias: ",ganancias1
+def perdidas(jugador):
+    p=list(map(lambda x,y: (x,y), valor(jugador), apuestas(jugador)))
+    pe = list(filter(lambda x: x if ('N' in x) else [],p))
+    per = (valor(reduce(lambda x,y: x+y, pe)))
+    return reduce(lambda x,y: x+y, per)
+
+def ganancias_Totales(jugador):
+    return ganancias(jugador) - perdidas(jugador)
+
+def ganador(jugador1,jugador2,jugador3):
+    if ganancias_Totales(jugador1) > ganancias_Totales(jugador2) and ganancias_Totales(jugador1) > ganancias_Totales(jugador3):
+        print("El jugador 1 gano mas con las apuestas")
+        print("Jugador 1 Gano: ",ganancias_Totales(jugador1))
+    if ganancias_Totales(jugador2) > ganancias_Totales(jugador1) and ganancias_Totales(jugador2) > ganancias_Totales(jugador3):
+        print("El jugador 2 gano mas con las apuestas")
+        print("Jugador 2 Gano: ",ganancias_Totales(jugador2))
+    if ganancias_Totales(jugador3) > ganancias_Totales(jugador2) and ganancias_Totales(jugador3) > ganancias_Totales(jugador1):
+        print("El jugador 3 gano mas con las apuestas")
+        print("Jugador 3 Gano: ",ganancias_Totales(jugador3))
+                                                                                                                        
+ganador(jugador1,jugador2,jugador3)
