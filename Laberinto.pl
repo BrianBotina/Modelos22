@@ -1,8 +1,8 @@
 pared1(E) :- E = [1,1,1,1,1].
-camino1(A) :-  A = [1,0,fin,0,1].
+camino1(A) :-  A = [1,0,0,0,1].
 camino2(B) :- B = [1,0,inicio,0,1].
 camino3(C) :- C = [1,0,1,1,1].
-camino4(D) :- D = [1,0,0,1,1].
+camino4(D) :- D = [1,0,0,fin,1].
 pared2(F) :- F = [1,1,1,1,1].
 
 empieza(X) :- camino1(A), member(inicio,A),
@@ -35,3 +35,5 @@ conecta(Y) :- empieza(X), camino4(D), member(0,D), X \= D, remove(1,X,Zs),
 remove(_, [], []).
 remove(Y, [Y|Xs], Zs):- remove(Y, Xs, Zs),!.
 remove(X, [Y|Xs], [Y|Zs]):- remove(X, Xs, Zs).
+
+camino(_) :- conecta(Y), member(inicio,Y), member(fin,Y), write("Hay Camino"),!.
